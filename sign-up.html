@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body class="login__body dark-mode">
+  <div class="signup-box">
+    <h2>Sign Up</h2>
+    <p>Create your account to get full access</p>
+    <form id="registerForm" novalidate>
+      <input type="text" id="username" placeholder="Enter username" required>
+      <div class="error-message" id="username-error"></div>
+
+      <input type="email" id="email" placeholder="Enter email address" required>
+      <div class="error-message" id="email-error"></div>
+
+      <input type="password" id="password" placeholder="Enter Password" required>
+      <div class="error-message" id="password-error"></div>
+
+      <button type="submit">Sign Up</button>
+    </form>
+    <div class="login">
+      Already have an account? <a href="login.html">Login here</a>
+    </div>
+  </div>
+
+  <script src="./assets/js/register_script.js"> </script>
+</body>
+</html>
