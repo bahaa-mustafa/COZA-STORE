@@ -185,8 +185,8 @@ var showProducts = (category) => {
                             <span>${allProducts[i].title}</span>
                             <div class="icon-heart-container">
                                 <a>
-                                    <img class="icon-heart-1" src="../imgs/icon-heart-01.png.webp" alt="">
-                                    <img class="icon-heart-2" src="../imgs/icon-heart-02.png.webp" alt="">
+                                    <img class="icon-heart-1" src="./assets/imgs/icon-heart-01.png.webp" alt="">
+                                    <img class="icon-heart-2" src="./assets/imgs/icon-heart-02.png.webp" alt="">
                                 </a>
                             </div>
                         </div>
@@ -332,15 +332,36 @@ document.querySelector('.products-list').addEventListener('click', (e) => {
                     return;
                 }
 
-                console.log('Added to cart:', {
+                // Cart functionality - save to localStorage
+                var cartItem = {
+                    id: product.id,
                     product: product.title,
                     size: selectedSize,
                     color: selectedColor,
                     quantity: quantity,
                     price: product.price,
-                    image: mainImage.src
-                });
+                    image: mainImage.src,
+                    description: product.description || 'Premium quality product'
+                };
 
+                var existingCart = JSON.parse(localStorage.getItem('cartItems')) || [];
+                var existingItemIndex = existingCart.findIndex(item => 
+                    item.id === cartItem.id && 
+                    item.size === cartItem.size && 
+                    item.color === cartItem.color
+                );
+
+                if (existingItemIndex > -1) {
+                    existingCart[existingItemIndex].quantity += cartItem.quantity;
+                } else {
+                    existingCart.push(cartItem);
+                }
+
+                localStorage.setItem('cartItems', JSON.stringify(existingCart));
+
+                console.log('Added to cart:', cartItem);
+                
+                updateCartBadge();
 
                 popup.remove();
                 overlay.remove();
@@ -355,6 +376,7 @@ document.querySelector('.products-list').addEventListener('click', (e) => {
 
 var searchBox = document.querySelector('.search-box');
 var searchBtn = document.querySelector('#product-search-btn')
+var searchIcon = document.querySelector('#search-icon');
 
 searchBtn.addEventListener('click', () => {
     searchBox.classList.toggle('hidden');
@@ -369,6 +391,93 @@ searchBtn.addEventListener('click', () => {
     }
 })
 
+searchIcon.addEventListener('click', (e) => {
+    e.preventDefault();
+    var productsSection = document.querySelector('#products');
+    
+    if (productsSection) {
+        productsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        setTimeout(() => {
+            if (searchBox.classList.contains('hidden')) {
+                searchBox.classList.remove('hidden');
+            }
+            setTimeout(() => {
+                if (searchInput) {
+                    searchInput.focus();
+                }
+            }, 100);
+        }, 500);
+    } else {
+        if (searchBox && searchBox.classList.contains('hidden')) {
+            searchBox.classList.remove('hidden');
+            setTimeout(() => {
+                if (searchInput) {
+                    searchInput.focus();
+                }
+            }, 100);
+        }
+    }
+    
+    if (searchInput && searchInput.id == "product-search") {
+        searchInput.addEventListener("keydown", (e) => {
+            if (e.key === 'Enter') {
+                searchProduct();
+                searchInput.value = ""
+            }
+        })
+    }
+})
+
+var cartIcon = document.querySelector('#cart-icon');
+
+cartIcon.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.location.href = 'cart1.html';
+})
+
+var womenCategory = document.querySelector('#women-catg .catg-card a');
+var menCategory = document.querySelector('#men-catg .catg-card a');
+var accessoriesCategory = document.querySelector('#accessories-catg .catg-card a');
+
+womenCategory.addEventListener('click', (e) => {
+    e.preventDefault();
+    document.querySelector('#products').scrollIntoView({ behavior: 'smooth' });
+    setTimeout(() => {
+        var womenBtn = document.querySelector('#women');
+        for (var j = 0; j < activeBtns.length; j++) {
+            activeBtns[j].classList.remove('products-active');
+        }
+        womenBtn.classList.add('products-active');
+        showProducts('women');
+    }, 1000);
+});
+
+menCategory.addEventListener('click', (e) => {
+    e.preventDefault();
+    document.querySelector('#products').scrollIntoView({ behavior: 'smooth' });
+    setTimeout(() => {
+        var menBtn = document.querySelector('#men');
+        for (var j = 0; j < activeBtns.length; j++) {
+            activeBtns[j].classList.remove('products-active');
+        }
+        menBtn.classList.add('products-active');
+        showProducts('men');
+    }, 1000);
+});
+
+accessoriesCategory.addEventListener('click', (e) => {
+    e.preventDefault();
+    document.querySelector('#products').scrollIntoView({ behavior: 'smooth' });
+    setTimeout(() => {
+        var accessoriesBtn = document.querySelector('#accessories');
+        for (var j = 0; j < activeBtns.length; j++) {
+            activeBtns[j].classList.remove('products-active');
+        }
+        accessoriesBtn.classList.add('products-active');
+        showProducts('accessories');
+    }, 1000);
+});
+
 
 searchInput = document.getElementById('product-search');
 productsList = document.querySelector('.products-list');
@@ -378,22 +487,22 @@ var renderProducts = (products) => {
     for (var i = 0; i < products.length; i++) {
         var product = products[i];
         productsList.innerHTML += `
-        <div class="product-card">     
+        <div class="product-card">
                     <div class="product-img">
-                        <img src="./assets/imgs/${product.image}" alt="">
-                        <button data-product-id="${product.id}" class="quick-view">Quick View</button>
+                        <img src="./assets/imgs/${allProducts[i].image}" alt="">
+                        <button data-product-id="${allProducts[i].id}" class="quick-view">Quick View</button>
                     </div>
                     <div class="product-details">
                         <div class="product-name">
-                            <span>${product.title}</span>
+                            <span>${allProducts[i].title}</span>
                             <div class="icon-heart-container">
                                 <a>
-                                    <img class="icon-heart-1" src="../imgs/icon-heart-01.png.webp" alt="">
-                                    <img class="icon-heart-2" src="../imgs/icon-heart-02.png.webp" alt="">
+                                    <img class="icon-heart-1" src="./assets/imgs/icon-heart-01.png.webp" alt="">
+                                    <img class="icon-heart-2" src="./assets/imgs/icon-heart-02.png.webp" alt="">
                                 </a>
                             </div>
                         </div>
-                        <div class="product-price">$${product.price}</div>
+                        <div class="product-price">$${allProducts[i].price}</div>
                     </div>
                 </div> `
     }
@@ -417,10 +526,31 @@ var searchProduct = () => {
 
 
 
+function updateCartBadge() {
+    var cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    var totalItems = 0;
+    
+    for (var i = 0; i < cartItems.length; i++) {
+        totalItems += cartItems[i].quantity;
+    }
+    
+    var cartBadge = document.getElementById('cart-badge');
+    if (cartBadge) {
+        if (totalItems > 0) {
+            cartBadge.textContent = totalItems;
+            cartBadge.classList.remove('hidden');
+        } else {
+            cartBadge.classList.add('hidden');
+        }
+    }
+}
+
 // Dark Mode Toggle Functionality
 document.addEventListener('DOMContentLoaded', function() {
     const darkModeToggle = document.getElementById('dark-mode-toggle');
     const body = document.body;
+    
+    updateCartBadge();
     
     // Check if dark mode preference is saved in localStorage
     const isDarkMode = localStorage.getItem('darkMode') === 'true';

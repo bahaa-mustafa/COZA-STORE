@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>COZA STORE</title>
+    <title>Document</title>
     <link rel="stylesheet" href="assets/css/style.css" />
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css" />
@@ -13,7 +13,7 @@
 </head>
 
 
-<body class="home-page dark-mode">
+<body class="home-page">
     <div class="top-bar">
         <div class="top-bar-content-container">
             <div class="top-bar-left">Free shipping for standard order over $100</div>
@@ -36,14 +36,17 @@
                 <li><a href="index.html" class="active">Home</a></li>
                 <li><a href="#products">Shop</a></li>
                 <li><a href="cart1.html" class="label1" data-label1="hot">Features</a></li>
-                <li><a href="#">Blog</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="contact.html">Contact</a></li>
+                <li><a href="login.html">Register</a></li>
             </ul>
         </div>
         <div class="nav-icons">
             <a title="search" href="#" id="search-icon" class="zmdi zmdi-search"></a>
-            <a title="cart" href="#" id="cart-icon" class="zmdi zmdi-shopping-cart"></a>
+            <div class="cart-icon-container">
+                <a title="cart" href="#" id="cart-icon" class="zmdi zmdi-shopping-cart"></a>
+                <span class="cart-badge hidden" id="cart-badge">0</span>
+            </div>
             <a title="favourites" href="#" id="fav-icon" class="zmdi zmdi-favorite-outline"></a>
                             <a title="dark-mode" href="#" id="dark-mode-toggle" class="material-icons">dark_mode</a>
         </div>
